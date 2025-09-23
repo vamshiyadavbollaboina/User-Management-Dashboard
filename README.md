@@ -9,19 +9,14 @@ A simple React-based web application for managing users. This project demonstrat
 - View user details on a separate page  
 - Styled with styled-components  
 
+## Live Demo
+[https://vamshi4v1.ccbp.tech/](https://vamshi4v1.ccbp.tech/)  
+
 ## 🛠️ Tech Stack
 - Frontend: React, React Router DOM, styled-components  
 - Backend API: MockAPI  
 - HTTP Client: Axios  
 - Version Control: Git & GitHub  
-
-## 📂 Project Structure
-/src  
- ├── components       # Reusable components (Cards, Buttons, etc.)  
- ├── pages            # Page components (Read, Update, Create, Dashboard)  
- ├── styledComponents # Styled components for consistent design  
- ├── App.js           # Root component with routes  
- └── index.js         # Entry point  
 
 ## ⚙️ Installation & Setup
 1. Clone the repository:  
@@ -40,11 +35,6 @@ A simple React-based web application for managing users. This project demonstrat
 This project uses MockAPI to store and manage user data.  
 Example endpoint:  
 https://67977c52c2c861de0c6ce6a8.mockapi.io/users/users  
-
-## 📸 Screenshots
-- Dashboard (list of users)  
-- Add / Edit user form  
-- User details view  
 
 ## 🧪 Evaluation Criteria
 - Effective naming conventions  
