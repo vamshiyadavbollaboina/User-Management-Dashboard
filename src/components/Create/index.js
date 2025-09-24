@@ -14,6 +14,7 @@ import {
 } from './styledComponents'
 
 const Create = () => {
+  // State for form input values
   const [values, setValues] = useState({
     id: '',
     FirstName: '',
@@ -22,10 +23,16 @@ const Create = () => {
     Department: '',
   })
 
+  // State for form validation errors
   const [errors, setErrors] = useState({})
+
+  // State to hold list of users
   const [users, setUsers] = useState([])
+
+  // useHistory hook (React Router v5) to navigate after form submission
   const history = useHistory()
 
+  // Fetch users from API on component mount
   useEffect(() => {
     axios
       .get('https://67977c52c2c861de0c6ce6a8.mockapi.io/users/users')
@@ -33,6 +40,7 @@ const Create = () => {
       .catch(error => console.error('Error fetching data:', error))
   }, [])
 
+  // Validate form inputs before submission
   const validate = () => {
     const newErrors = {}
     if (!values.id || values.id <= 0) newErrors.id = 'ID must be positive'
@@ -46,16 +54,19 @@ const Create = () => {
       newErrors.Department = 'Department must have at least 2 characters'
 
     setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
+    return Object.keys(newErrors).length === 0 // return true if no errors
   }
 
+  // Handle form submit
   const handleSubmit = e => {
     e.preventDefault()
     if (validate()) {
       axios
         .post('https://67977c52c2c861de0c6ce6a8.mockapi.io/users/users', values)
         .then(response => {
+          // Update state with newly created user
           setUsers([...users, response.data])
+          // Redirect back to home page after successful creation
           history.push('/')
         })
         .catch(error => console.error('Error posting data:', error))
@@ -66,7 +77,10 @@ const Create = () => {
     <Container>
       <Card>
         <Title>Add User</Title>
+
+        {/* User Creation Form */}
         <Form onSubmit={handleSubmit}>
+          {/* ID Field */}
           <FormGroup>
             <Label htmlFor="id">ID:</Label>
             <Input
@@ -81,6 +95,7 @@ const Create = () => {
             {errors.id && <ErrorMessage>*{errors.id}</ErrorMessage>}
           </FormGroup>
 
+          {/* First Name Field */}
           <FormGroup>
             <Label htmlFor="FirstName">First Name:</Label>
             <Input
@@ -97,6 +112,7 @@ const Create = () => {
             )}
           </FormGroup>
 
+          {/* Last Name Field */}
           <FormGroup>
             <Label htmlFor="LastName">Last Name:</Label>
             <Input
@@ -113,6 +129,7 @@ const Create = () => {
             {errors.LastName && <ErrorMessage>*{errors.LastName}</ErrorMessage>}
           </FormGroup>
 
+          {/* Email Field */}
           <FormGroup>
             <Label htmlFor="Email">Email:</Label>
             <Input
@@ -129,6 +146,7 @@ const Create = () => {
             {errors.Email && <ErrorMessage>*{errors.Email}</ErrorMessage>}
           </FormGroup>
 
+          {/* Department Field */}
           <FormGroup>
             <Label htmlFor="Department">Department:</Label>
             <Input
@@ -146,10 +164,13 @@ const Create = () => {
               <ErrorMessage>*{errors.Department}</ErrorMessage>
             )}
           </FormGroup>
+
+          {/* Submit Button */}
           <SubmitButton type="submit">Submit</SubmitButton>
         </Form>
       </Card>
     </Container>
   )
 }
+
 export default Create
