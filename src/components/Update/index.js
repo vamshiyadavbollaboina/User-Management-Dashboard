@@ -20,6 +20,7 @@ import {
 } from './styledComponents'
 
 const Update = () => {
+  // Local state to store form values
   const [values, setValues] = useState({
     id: '',
     FirstName: '',
@@ -27,17 +28,23 @@ const Update = () => {
     Email: '',
     Department: '',
   })
-  const [isPopupOpen, setIsPopupOpen] = useState(false)
-  const history = useHistory()
-  const {id} = useParams()
 
+  // State to control success popup visibility
+  const [isPopupOpen, setIsPopupOpen] = useState(false)
+
+  // Router helpers
+  const history = useHistory()
+  const {id} = useParams() // Get user ID from route (/update/:id)
+
+  // Fetch user details when the component mounts or id changes
   useEffect(() => {
     axios
       .get(`https://67977c52c2c861de0c6ce6a8.mockapi.io/users/users/${id}`)
-      .then(response => setValues(response.data))
+      .then(response => setValues(response.data)) // Pre-fill form with existing data
       .catch(error => console.error('Error fetching data:', error))
   }, [id])
 
+  // Handle form submission -> update user data
   const handleUpdate = formEvent => {
     formEvent.preventDefault()
     axios
@@ -45,7 +52,7 @@ const Update = () => {
         `https://67977c52c2c861de0c6ce6a8.mockapi.io/users/users/${id}`,
         values,
       )
-      .then(() => setIsPopupOpen(true))
+      .then(() => setIsPopupOpen(true)) // Show success popup
       .catch(error => console.error('Error updating data:', error))
   }
 
@@ -53,7 +60,10 @@ const Update = () => {
     <Container>
       <Card>
         <Title>Update User</Title>
+
+        {/* Form to update user details */}
         <Form onSubmit={handleUpdate}>
+          {/* ID Field (read-only) */}
           <FormGroup>
             <Label htmlFor="id">ID:</Label>
             <Input
@@ -67,6 +77,7 @@ const Update = () => {
             />
           </FormGroup>
 
+          {/* First Name */}
           <FormGroup>
             <Label htmlFor="firstName">First Name:</Label>
             <Input
@@ -82,6 +93,7 @@ const Update = () => {
             />
           </FormGroup>
 
+          {/* Last Name */}
           <FormGroup>
             <Label htmlFor="lastName">Last Name:</Label>
             <Input
@@ -97,6 +109,7 @@ const Update = () => {
             />
           </FormGroup>
 
+          {/* Email */}
           <FormGroup>
             <Label htmlFor="email">Email:</Label>
             <Input
@@ -112,6 +125,7 @@ const Update = () => {
             />
           </FormGroup>
 
+          {/* Department */}
           <FormGroup>
             <Label htmlFor="department">Department:</Label>
             <Input
@@ -127,6 +141,7 @@ const Update = () => {
             />
           </FormGroup>
 
+          {/* Submit & Back buttons */}
           <div style={{display: 'flex', gap: '1rem', marginTop: '1rem'}}>
             <SubmitButton type="submit">Submit</SubmitButton>
             <BackButton type="button" onClick={() => history.push('/')}>
@@ -134,6 +149,8 @@ const Update = () => {
             </BackButton>
           </div>
         </Form>
+
+        {/* Success Popup after update */}
         <Popup
           open={isPopupOpen}
           modal
@@ -144,9 +161,11 @@ const Update = () => {
             <PopupContent>
               <PopupTitle>Updated Successfully!</PopupTitle>
               <PopupButtonWrapper>
+                {/* Stay on update page */}
                 <PopupButton onClick={close} variant="stay">
                   Stay Here
                 </PopupButton>
+                {/* Redirect to Home */}
                 <PopupButton onClick={() => history.push('/')} variant="home">
                   Back to Home
                 </PopupButton>
